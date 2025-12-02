@@ -12,7 +12,7 @@ This project builds an automated Data Pipeline to analyze sales data and custome
 
 ## 2. Architecture
 
-![Architecture Diagram](/Users/tda/amazon_product_analytics/images/diagram.png)
+![Architecture Diagram](images/diagram.png)
 
 Data Flow:
 1.  **Ingestion:** Upload CSV data to **MinIO** (Data Lake - Raw Layer).
