@@ -1,0 +1,67 @@
+---
+title: "Amazon Product Analytics Dashboard"
+format: 
+  html:
+    theme: cosmo
+---
+
+```{python}
+#| echo: false
+#| warning: false
+
+# Setup Environment
+import os
+import pandas as pd
+from sqlalchemy import create_engine
+import plotly.express as px
+
+# Connect Postgres(structure: postgresql://user:pass@host:port/db_name)
+db_url= "postgresql://airflow:airflow@postgres:5432/airflow"
+engine= create_engine(db_url)
+
+# 1. Top 10 categories have highest revenue
+query_revenue="""
+    select category, sum(discounted_price) as total_revenue
+    from amazon.amazon_sales
+    group by category
+    order by total_revenue desc
+    limit 10
+"""
+
+df_rev= pd.read_sql(query_revenue, engine)
+# Cal sum of revenue to display KPI
+total_rev = df_rev['total_revenue'].sum()
+
+# Display KPI in Markdown (Use IPython.display)
+from IPython.display import Markdown
+display(Markdown(f"### 💰 Total Revenue: **${total_rev:,.2f}**"))
+
+fig = px.bar(
+    df_rev, 
+    x='category', 
+    y='total_revenue', 
+    title="Top 10 Categories by Revenue",
+    text_auto='.2s',
+    color_discrete_sequence=['#232F3E'] #
+)
+
+fig.update_layout(
+    xaxis_title="Category",
+    yaxis_title="Revenue (USD)",
+    showlegend=False
+)
+fig.show()
+
+# 2. Sentiment Analysis
+query_sentiment="""
+    select is_positive, count(*) as count
+    from amazon.amazon_sales
+    group by is_positive
+"""
+
+df_sent= pd.read_sql(query_sentiment, engine)
+df_sent['sentiment_label'] = df_sent['is_positive'].map({True: 'Positive', False: 'Negative'})
+fig= px.pie(df_sent, values='count', names='sentiment_label', title="Sentiment Distribution", color='sentiment_label', color_discrete_map={'Positive': '#00CC96', 'Negative': '#EF553B'}, hole=0.4)
+fig.update_traces(textposition='inside', textinfo='percent+label')
+fig.show()
+```
