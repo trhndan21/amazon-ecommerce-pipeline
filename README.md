@@ -69,16 +69,6 @@ make up
 3. Toggle the ON switch to unpause it.
 4. Click the Play button (Trigger DAG) to start the pipeline manually.
 
-**5. Project Results**
-* **Airflow Orchestration:**
-The pipeline successfully executes extraction, processing (Spark), loading (Postgres), and visualization tasks.
-
-* **Final Dashboard:**
-The generated report provides insights into Top Revenue Categories and Customer Sentiment analysis.
-
-![Dashboard](images/dashboard.png)
-
-
 
 
 
