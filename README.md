@@ -36,18 +36,7 @@ Data Flow:
 * **Visualization:** Quarto, Plotly.
 * **Language:** Python, SQL, Bash.
 
-## 4. Key Challenges
-
-Here are some real technical problems I encountered and solved:
-
-* **Multi-arch Support:** Customizing Dockerfile to make Spark and Java run stably on **Apple Silicon (ARM64)** và Intel (AMD64) chips.
-* **Handing Dirty Data:**
-    * Handling Multiline CSVs that cause Spark to misread.
-    * Cleaning up price columns containing strange characters (Currency symbols) using Regex.
-    * Handling inconsistent Schema (Schema Evolution) between data files.
-* **Optimization:** Using the **Parquet** format to optimize storage and read/write speed compared to CSV.
-
-## 5. How to Run
+## 4. How to Run
 
 ### Prerequisites
 * **Docker Desktop** installed.
@@ -80,17 +69,9 @@ make up
 3. Toggle the ON switch to unpause it.
 4. Click the Play button (Trigger DAG) to start the pipeline manually.
 
-**5. Check the Results**
-* **Data Quality:** Check MinIO bucket "amazon-bucket" to see the processed Parquet files in clean/amazon_sales/.
-
-* **Data Warehouse:** (Optional) Connect to Postgres to query the amazon.amazon_sales table.
-
-* **Visual Report:** Once the DAG finishes, the dashboard will be generated locally at: dags/scripts/dashboard/dashboard.html (Open this file in your web browser to view the analytics)
-
-**6. Project Results**
+**5. Project Results**
 * **Airflow Orchestration:**
 The pipeline successfully executes extraction, processing (Spark), loading (Postgres), and visualization tasks.
-![Architecture Diagram](images/diagram.png)
 
 * **Final Dashboard:**
 The generated report provides insights into Top Revenue Categories and Customer Sentiment analysis.
